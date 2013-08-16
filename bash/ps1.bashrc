@@ -20,15 +20,15 @@ function color-offset {
 }
 
 function echo-as-color {
-    foreground=$1; shift
-    background=$1; shift
-    bold=$1; shift
-    text=$@
+    local foreground=$1; shift
+    local background=$1; shift
+    local bold=$1; shift
+    local text=$@
 
-    eseq="["
+    local eseq="["
 
-    fgcode=$(color-offset "$foreground")
-    bgcode=$(color-offset "$background")
+    local fgcode=$(color-offset "$foreground")
+    local bgcode=$(color-offset "$background")
 
     if [[ "$fgcode" != "" ]]; then
 	echo -n "$eseq"$(($fgcode + 30))"m"
@@ -47,14 +47,16 @@ function echo-as-color {
 }
 
 function PS1-prompt-printer {
-    retcode=$?
-    prompt=$1
+    local retcode=$?
+    local prompt=$1
 
     case $retcode in
 	0)
 	    echo-as-color green nil nil "$prompt";;
 	1)
 	    echo-as-color red   nil nil "$prompt";;
+	130)
+	    echo-as-color blue  nil nil "$prompt";;
 	*)
 	    echo-as-color red   nil t   "$prompt";;
     esac
@@ -63,7 +65,7 @@ function PS1-prompt-printer {
 }
 
 function PS1-init {
-    PS1="[\$(PS1-prompt-printer \h):\$(PS1-prompt-printer '\w')] "
+    export PS1="[\[\$(PS1-prompt-printer '\]\h\[')\]:\[\$(PS1-prompt-printer '\]\w\[')\]] "
 }
 
 PS1-init

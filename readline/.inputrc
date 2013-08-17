@@ -1,1 +1,2 @@
 "\eh": backward-kill-word
+set match-hidden-files off

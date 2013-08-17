@@ -1,4 +1,6 @@
 function color-offset {
+    local retcode=$?
+
     case $1 in
 	"black")
 	    echo -n "0";;
@@ -17,9 +19,13 @@ function color-offset {
 	"white")
 	    echo -n "7";;
     esac
+
+    return retcode
 }
 
 function echo-as-color {
+    local retcode=$?
+
     local foreground=$1; shift
     local background=$1; shift
     local bold=$1; shift
@@ -44,6 +50,8 @@ function echo-as-color {
 
     echo -n "$text"
     echo -n "$eseq""0m"
+
+    return retcode
 }
 
 function PS1-prompt-printer {

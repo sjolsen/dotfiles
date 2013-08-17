@@ -20,7 +20,7 @@ function color-offset {
 	    echo -n "7";;
     esac
 
-    return retcode
+    return $retcode
 }
 
 function echo-as-color {
@@ -51,7 +51,7 @@ function echo-as-color {
     echo -n "$text"
     echo -n "$eseq""0m"
 
-    return retcode
+    return $retcode
 }
 
 function PS1-prompt-printer {

@@ -65,7 +65,15 @@ function PS1-prompt-printer {
 }
 
 function PS1-init {
-    export PS1="[\[\$(PS1-prompt-printer '\]\h\[')\]:\[\$(PS1-prompt-printer '\]\w\[')\]] "
+    local lbracket="["
+    local rbracket="]"
+
+    if [[ -n "$SSH_CLIENT" ]]; then
+	lbracket="\[\$(echo-as-color blue nil nil '\]$lbracket\[' )\]"
+	rbracket="\[\$(echo-as-color blue nil nil '\]$rbracket\[' )\]"
+    fi
+
+    export PS1="$lbracket\[\$(PS1-prompt-printer '\]\h\[' )\]:\[\$(PS1-prompt-printer '\]\w\[' )\]$rbracket "
 }
 
 PS1-init

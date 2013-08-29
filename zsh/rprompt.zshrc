@@ -29,7 +29,9 @@ function apply-time-color {
 
 export RPROMPT='[%D{%Y.%m.%d} $(apply-time-color %D{%H:%M.%S})]'
 
-TMOUT=1
-TRAPALRM() {
-    zle reset-prompt
-}
+if [ "$TERM" != "eterm-color" ]; then
+    TMOUT=1
+    TRAPALRM() {
+	zle reset-prompt
+    }
+fi

@@ -1,10 +1,26 @@
-export WORDCHARS=
+source ~/dotfiles/zsh/buggy.zsh
+
+export WORDCHARS='.'
 export KEYTIMEOUT=0
 
+# M-x
 bindkey 'ø' execute-named-cmd
+# M-h
 bindkey '\eh' backward-delete-word
+# M-? k
 bindkey '\e?k' describe-key-briefly
+# M-? f
 bindkey '\e?f' run-help
+# <backtab>
+bindkey '\e[Z' reverse-menu-complete
+
+if [ -n $BUGGY ]; then
+    bindkey '\eOF' end-of-line
+    bindkey '\eOH' beginning-of-line
+    bindkey '\e[1~' beginning-of-line
+    bindkey '\e[3~' delete-char
+    bindkey '\e[4~' end-of-line
+fi
 
 insert_sudo () { zle beginning-of-line; zle -U "sudo " }
 zle -N insert-sudo insert_sudo

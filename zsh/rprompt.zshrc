@@ -1,3 +1,4 @@
+source ~/dotfiles/zsh/buggy.zsh
 source ~/dotfiles/zsh/color.zsh
 
 function time-color {
@@ -29,7 +30,8 @@ function apply-time-color {
 
 export RPROMPT='[%D{%Y.%m.%d} $(apply-time-color %D{%H:%M.%S})]'
 
-if [ "$TERM" != "eterm-color" ]; then
+if [[ ("$TERM" != "eterm-color") && ("$BUGGY" == "") ]]; then
+    echo foo
     TMOUT=1
     TRAPALRM() {
 	zle reset-prompt

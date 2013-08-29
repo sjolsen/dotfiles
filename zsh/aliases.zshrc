@@ -1,5 +1,9 @@
+rmtilde () {
+    find -name '*~' -exec rm \{\} $@ \;
+}
+
 alias ls='ls -l --color=auto'
-alias rmtilde='find -name \*~ -exec rm \{\} \;'
+alias g11='g++-4.8 -std=c++11'
 
 # Suffixes
 alias -s c=emacs-or-client.sh

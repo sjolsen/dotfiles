@@ -1,4 +1,4 @@
-if [[ $SSH_CLIENT != "" ]] && [[ $TERM == "eterm-color" ]]; then
+if [[ $TERM == "eterm-color" ]]; then
     echo -n '' 1>&2
 
     function eterm-set-cwd {

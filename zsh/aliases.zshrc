@@ -1,4 +1,5 @@
 alias ls='ls -l --color=auto'
+alias rmtilde='find -name \*~ -exec rm \{\} \;'
 
 # Suffixes
 alias -s c=emacs-or-client.sh

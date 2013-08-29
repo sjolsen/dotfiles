@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z "$*" ]; then
-    emacsclient -c -a emacs -e "(ensure-ansi-term)"
+    emacsclient -c -a emacs-daemon.sh
 else
-    emacsclient "$@" -a emacs
+    emacsclient "$@" -a emacs-daemon.sh
 fi

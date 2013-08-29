@@ -79,8 +79,8 @@ function PS1-init {
     local rbracket="]"
 
     if [[ -n "$SSH_CLIENT" ]]; then
-	lbracket="\[\$(echo-as-color blue nil nil '\]$lbracket\[' )\]"
-	rbracket="\[\$(echo-as-color blue nil nil '\]$rbracket\[' )\]"
+	lbracket="%{\$(echo-as-color blue nil nil '%}$lbracket%{' )%}"
+	rbracket="%{\$(echo-as-color blue nil nil '%}$rbracket%{' )%}"
     fi
 
     export PS1="$lbracket%{\$(PS1-prompt-printer '%}%m%{' )%}:%{\$(PS1-prompt-printer '%}%0~%{' )%}$rbracket "

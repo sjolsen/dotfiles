@@ -74,6 +74,20 @@ function PS1-prompt-printer {
     return $retcode
 }
 
+function PS1-euid-printer {
+    local retcode=$?
+    local separator=$1
+
+    case $EUID in
+	0)
+	    echo-as-color red nil nil "$separator";;
+	*)
+	    echo-as-color nil nil nil "$separator";;
+    esac
+
+    return $retcode
+}
+
 function PS1-init {
     local lbracket="["
     local rbracket="]"
@@ -83,7 +97,7 @@ function PS1-init {
 	rbracket="%{\$(echo-as-color blue nil nil '%}$rbracket%{' )%}"
     fi
 
-    export PS1="$lbracket%{\$(PS1-prompt-printer '%}%m%{' )%}:%{\$(PS1-prompt-printer '%}%0~%{' )%}$rbracket "
+    export PS1="$lbracket%{\$(PS1-prompt-printer '%}%m%{' )\$(PS1-euid-printer '%}:%{')%{\$(PS1-prompt-printer '%}%0~%{' )%}$rbracket "
 }
 
 PS1-init

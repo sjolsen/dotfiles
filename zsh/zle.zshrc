@@ -1,7 +1,9 @@
 source ~/dotfiles/zsh/buggy.zsh
 
-export WORDCHARS='.'
+export WORDCHARS=
 export KEYTIMEOUT=0
+
+bindkey -e
 
 # M-x
 bindkey 'ø' execute-named-cmd

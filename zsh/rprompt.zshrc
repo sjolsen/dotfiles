@@ -30,9 +30,9 @@ function apply-time-color {
 
 export RPROMPT='[%D{%Y.%m.%d} $(apply-time-color %D{%H:%M.%S})]'
 
-if [[ ("$TERM" != "eterm-color") && ("$BUGGY" == "") ]]; then
-    TMOUT=1
-    TRAPALRM() {
-	zle reset-prompt
-    }
-fi
+# if [[ ("$TERM" != "eterm-color") && ("$BUGGY" == "") ]]; then
+#     TMOUT=1
+#     TRAPALRM() {
+# 	zle reset-prompt
+#     }
+# fi

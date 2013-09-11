@@ -1,4 +1,4 @@
-export TIMEFMT="
+TIMEFMT="
 (\"$(echo-as-color nil nil t %J)\"
   (time
     (real \"%*E s\")

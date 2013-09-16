@@ -1,7 +1,7 @@
 source ~/dotfiles/zsh/buggy.zsh
 
-export WORDCHARS=
-export KEYTIMEOUT=0
+WORDCHARS=
+KEYTIMEOUT=0
 
 bindkey -e
 

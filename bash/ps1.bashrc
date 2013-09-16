@@ -95,7 +95,7 @@ function PS1-init {
 	rbracket="\[\$(echo-as-color blue nil nil '\]$rbracket\[' )\]"
     fi
 
-    export PS1="$lbracket\[\$(PS1-prompt-printer '\]\h\[')\$(PS1-euid-printer '\]:\[')\$(PS1-prompt-printer '\]\w\[')\]$rbracket "
+    PS1="$lbracket\[\$(PS1-prompt-printer '\]\h\[')\$(PS1-euid-printer '\]:\[')\$(PS1-prompt-printer '\]\w\[')\]$rbracket "
 }
 
 PS1-init

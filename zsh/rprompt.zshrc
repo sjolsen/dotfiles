@@ -28,7 +28,7 @@ function apply-time-color {
     return $retcode
 }
 
-export RPROMPT='[%D{%Y.%m.%d} $(apply-time-color %D{%H:%M.%S})]'
+RPROMPT='[%D{%Y.%m.%d} $(apply-time-color %D{%H:%M.%S})]'
 
 # if [[ ("$TERM" != "eterm-color") && ("$BUGGY" == "") ]]; then
 #     TMOUT=1

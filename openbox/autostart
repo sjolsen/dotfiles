@@ -1,0 +1,12 @@
+#!/bin/sh
+
+setxkbmap -option ctrl:nocaps,compose:menu
+#xmodmap ~/.xmodmap
+xmodmap -e 'remove mod4 = Hyper_L'
+xmodmap -e 'keycode 0x25 = Hyper_L'
+xmodmap -e 'remove control = Hyper_L'
+xmodmap -e 'add mod3 = Hyper_L'
+
+synclient HorizEdgeScroll=1
+compton -b
+nautilus -n

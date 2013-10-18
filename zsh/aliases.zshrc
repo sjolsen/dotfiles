@@ -4,6 +4,7 @@ rmtilde () {
 
 alias ls='ls -l --color=auto'
 alias g11='g++-4.8 -std=c++11'
+alias cl='clang++ -std=c++1y -stdlib=libc++'
 
 # Suffixes
 alias -s c=emacs-or-client.sh

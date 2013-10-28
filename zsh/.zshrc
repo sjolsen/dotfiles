@@ -22,7 +22,7 @@ else
 
     setopt auto_cd autopushd pushdminus pushdsilent pushdtohome
     setopt appendhistory extendedglob notify
-    setopt complete_aliases
+    setopt complete_aliases completeinword
     setopt hist_ignore_space hist_ignore_dups
 
     for zsrc in ~/dotfiles/zsh/*.zshrc; do

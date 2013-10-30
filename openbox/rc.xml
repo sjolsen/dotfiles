@@ -422,7 +422,7 @@
 
     <keybind key="XF86WWW">
       <action name="Execute">
-        <command>x-terminal-emulator</command>
+        <command>x-www-browser</command>
       </action>
     </keybind>
     <keybind key="XF86Terminal">

@@ -16,16 +16,16 @@
   </item>
 </menu>
 
-<menu id="root-menu" label="LXDE">
-  <separator label="LXDE" />
+<menu id="root-menu" label="Openbox">
+  <separator label="Openbox" />
   <menu id="/Debian" />
   <separator />
   <menu id="client-list-menu" />
   <separator />
-  <item label="Desktop Settings">
+  <item label="Look and Feel">
     <action name="Execute">
       <startupnotify><enabled>yes</enabled></startupnotify>
-      <command>pcmanfm --desktop-pref</command>
+      <command>lxappearance</command>
     </action>
   </item>
   <item label="Window Management Settings">

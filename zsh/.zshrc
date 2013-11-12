@@ -21,9 +21,14 @@ else
     REPORTTIME=2
 
     setopt auto_cd auto_pushd pushd_minus pushd_silent pushd_tohome
-    setopt append_history extended_glob notify
+    setopt extended_glob multios notify
     setopt complete_aliases complete_in_word
-    setopt hist_ignore_space hist_ignore_dups
+    setopt share_history extended_history
+    setopt hist_ignore_space hist_ignore_all_dups hist_verify hist_find_no_dups
+    setopt no_hup
+
+    # Ensure entries in PATH are unique
+    typeset -U path
 
     for zsrc in ~/dotfiles/zsh/*.zshrc; do
 	source "$zsrc"
@@ -34,5 +39,8 @@ else
 	    source "$zsrc"
 	done
     fi
+
+    # Named directory for homework
+    hash -d hw=~/Documents/school/homework/2013-fall
 
 fi

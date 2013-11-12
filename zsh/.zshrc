@@ -20,9 +20,9 @@ else
 
     REPORTTIME=2
 
-    setopt auto_cd autopushd pushdminus pushdsilent pushdtohome
-    setopt appendhistory extendedglob notify
-    setopt complete_aliases completeinword
+    setopt auto_cd auto_pushd pushd_minus pushd_silent pushd_tohome
+    setopt append_history extended_glob notify
+    setopt complete_aliases complete_in_word
     setopt hist_ignore_space hist_ignore_dups
 
     for zsrc in ~/dotfiles/zsh/*.zshrc; do

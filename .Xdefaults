@@ -1,8 +1,10 @@
 URxvt*font: xft:Inconsolata:pixelsize=13:antialias=true:hinting=true
 URxvt*letterSpace: -1
+URxvt*lineSpace: 1
 URxvt*scrollBar: false
 
-URxvt*background: Grey15
+URxvt*depth: 32
+URxvt*background: [92]Grey15
 URxvt*foreground: Grey
 URxvt*cursorColor: Grey
 

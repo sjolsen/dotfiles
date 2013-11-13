@@ -4,7 +4,7 @@ URxvt*lineSpace: 1
 URxvt*scrollBar: false
 
 URxvt*depth: 32
-URxvt*background: [92]Grey15
+URxvt*background: [95]Grey15
 URxvt*foreground: Grey
 URxvt*cursorColor: Grey
 

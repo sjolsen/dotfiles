@@ -36,3 +36,5 @@ else
     fi
 
 fi
+
+export XAUTHORITY=~/.Xauthority

@@ -7,6 +7,10 @@ bindkey -e
 
 # M-x
 bindkey 'ø' execute-named-cmd
+# M-f
+bindkey '\ef' emacs-forward-word
+# M-b
+bindkey '\eb' emacs-backward-word
 # M-h
 bindkey '\eh' backward-delete-word
 # M-? k

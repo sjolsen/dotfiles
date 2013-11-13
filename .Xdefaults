@@ -1,0 +1,27 @@
+URxvt*font: xft:Inconsolata:pixelsize=13:antialias=true:hinting=true
+URxvt*letterSpace: -1
+URxvt*lineSpace: 1
+URxvt*scrollBar: false
+
+URxvt*depth: 32
+URxvt*background: [92]Grey15
+URxvt*foreground: Grey
+URxvt*cursorColor: Grey
+
+URxvt*color0:  Grey15
+URxvt*color1:  #F7977A
+URxvt*color2:  #3BB878
+URxvt*color3:  #FFF79A
+URxvt*color4:  #438CCA
+URxvt*color5:  #F06EA9
+URxvt*color6:  #00FFFF
+URxvt*color7:  Grey
+
+URxvt*color8:  Grey15
+URxvt*color9:  #F7977A
+URxvt*color10: #3BB878
+URxvt*color11: #FFF79A
+URxvt*color12: #438CCA
+URxvt*color13: #F06EA9
+URxvt*color14: #00FFFF
+URxvt*color15: Grey

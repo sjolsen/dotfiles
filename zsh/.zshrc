@@ -20,6 +20,9 @@ else
 
     REPORTTIME=2
 
+    autoload -Uz compinit
+    compinit
+
     setopt auto_cd auto_pushd pushd_minus pushd_silent pushd_tohome
     setopt extended_glob multios notify
     setopt complete_aliases complete_in_word

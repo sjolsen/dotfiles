@@ -274,7 +274,7 @@
     <!-- </keybind> -->
 
     <!-- Keybindings for windows -->
-    <keybind key="W-F4">
+    <keybind key="A-F4">
       <action name="Close"/>
     </keybind>
     <!-- <keybind key="A-Escape"> -->

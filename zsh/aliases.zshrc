@@ -8,7 +8,8 @@ else
     alias ls='ls -l --color=auto'
 fi
 alias g11='g++-4.8 -std=c++11'
-alias cl='clang++-trunk -std=c++1y -stdlib=libc++'
+alias g1y='g++-4.8 -std=c++1y'
+alias cl='clang++ -std=c++1y -stdlib=libc++'
 
 # Suffixes
 for SUFFIX in c h cc hh cu cuhh micc mich org txt; do

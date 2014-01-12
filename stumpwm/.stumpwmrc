@@ -42,6 +42,39 @@
 
 
 
+(defun scrot (&key file border display-countdown delay exec quality multi-display select currently-focused thumbnail-size silent)
+  (run-program "scrot" (concatenate 'list
+                                    (when border            (list "-b"))
+                                    (when display-countdown (list "-c"))
+                                    (when delay             (list "-d" (write-to-string delay)))
+                                    (when exec              (list "-e" exec))
+                                    (when quality           (list "-q" (write-to-string quality)))
+                                    (when multi-display     (list "-m"))
+                                    (when select            (list "-s"))
+                                    (when currently-focused (list "-u"))
+                                    (when thumbnail-size    (list "-t" (write-to-string thumbnail-size)))
+                                    (when silent            (list "-z")))
+               :search t))
+
+(stumpwm:defcommand scrot-all (&optional delay file)
+    (:number :string)
+  (scrot :delay delay :file file :multi-display t))
+
+(stumpwm:defcommand scrot-display (&optional delay file)
+    (:number :string)
+  (scrot :delay delay :file file))
+
+(stumpwm:defcommand scrot-window (&optional delay file)
+    (:number :string)
+  (scrot :delay delay :file file :currently-focused t))
+
+; FIXME
+(stumpwm:defcommand scrot-selection (&optional delay file)
+    (:number :string)
+  (scrot :delay delay :file file :select t))
+
+
+
 (set-prefix-key (kbd "s-q"))
 (setf stumpwm:*mouse-focus-policy* :click)
 
@@ -76,6 +109,10 @@
       ("XF86HomePage"   . "exec x-www-browser")
       ("s-e"            . "exec nautilus")
 
+      ("SunPrint_Screen"         . "scrot-all")
+;     ("SunPrint_Screen"         . "scrot-display")
+      ("M-SunPrint_Screen"       . "scrot-window")
+      ("S-SunPrint_Screen"       . "scrot-selection")
       ("XF86AudioRaiseVolume"    . "exec amixer -q sset Master 3%+ unmute")
       ("XF86AudioLowerVolume"    . "exec amixer -q sset Master 3%- unmute")
 ;     ("XF86AudioMute"           . "exec amixer -q sset Master toggle")

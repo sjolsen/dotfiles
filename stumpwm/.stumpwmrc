@@ -2,8 +2,8 @@
 ;; *prefix-key* ; swank will kick this off
 (load "/usr/share/common-lisp/source/slime/swank-loader.lisp")
 (swank-loader:init)
-(defcommand swank () ()
-  (swank:create-server :port 4005
+(defcommand swank (&optional (port 4005)) (:number)
+  (swank:create-server :port port
                        :style swank:*communication-style*
                        :dont-close t)
   (echo-string (current-screen)
@@ -16,20 +16,20 @@
 
 (defun reload-autostart-file ()
   (when (probe-file *autostart-filename*)
-    (run-program "/bin/sh" (list "-c" *autostart-filename*))))
+    (sb-ext:run-program "/bin/sh" (list "-c" *autostart-filename*))))
 
 (reload-autostart-file)
 
 
 
 (defun xbacklight (&key set inc dec time steps)
-  (run-program "xbacklight" (concatenate 'list
-                                         (when set   (list "-set"   (write-to-string set)))
-                                         (when inc   (list "-inc"   (write-to-string inc)))
-                                         (when dec   (list "-dec"   (write-to-string dec)))
-                                         (when time  (list "-time"  (write-to-string time)))
-                                         (when steps (list "-steps" (write-to-string steps))))
-               :search t))
+  (sb-ext:run-program "xbacklight" (concatenate 'list
+                                                (when set   (list "-set"   (write-to-string set)))
+                                                (when inc   (list "-inc"   (write-to-string inc)))
+                                                (when dec   (list "-dec"   (write-to-string dec)))
+                                                (when time  (list "-time"  (write-to-string time)))
+                                                (when steps (list "-steps" (write-to-string steps))))
+                      :search t))
 
 (stumpwm:defcommand backlight-up (percent &optional time steps) (:number :number :number)
   (xbacklight :inc percent :time time :steps steps))
@@ -43,18 +43,18 @@
 
 
 (defun scrot (&key file border display-countdown delay exec quality multi-display select currently-focused thumbnail-size silent)
-  (run-program "scrot" (concatenate 'list
-                                    (when border            (list "-b"))
-                                    (when display-countdown (list "-c"))
-                                    (when delay             (list "-d" (write-to-string delay)))
-                                    (when exec              (list "-e" exec))
-                                    (when quality           (list "-q" (write-to-string quality)))
-                                    (when multi-display     (list "-m"))
-                                    (when select            (list "-s"))
-                                    (when currently-focused (list "-u"))
-                                    (when thumbnail-size    (list "-t" (write-to-string thumbnail-size)))
-                                    (when silent            (list "-z")))
-               :search t))
+  (sb-ext:run-program "scrot" (concatenate 'list
+                                           (when border            (list "-b"))
+                                           (when display-countdown (list "-c"))
+                                           (when delay             (list "-d" (write-to-string delay)))
+                                           (when exec              (list "-e" exec))
+                                           (when quality           (list "-q" (write-to-string quality)))
+                                           (when multi-display     (list "-m"))
+                                           (when select            (list "-s"))
+                                           (when currently-focused (list "-u"))
+                                           (when thumbnail-size    (list "-t" (write-to-string thumbnail-size)))
+                                           (when silent            (list "-z")))
+                      :search t))
 
 (stumpwm:defcommand scrot-all (&optional delay file)
     (:number :string)

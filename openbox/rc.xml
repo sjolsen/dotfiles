@@ -81,8 +81,8 @@
     <animateIconify>yes</animateIconify>
 
     <font place="ActiveWindow">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -91,8 +91,8 @@
     </font>
 
     <font place="InactiveWindow">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -101,8 +101,8 @@
     </font>
 
     <font place="MenuHeader">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -111,8 +111,8 @@
     </font>
 
     <font place="MenuItem">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -121,8 +121,8 @@
     </font>
 
     <font place="ActiveOnScreenDisplay">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -131,8 +131,8 @@
     </font>
 
     <font place="InactiveOnScreenDisplay">
-      <name>Terminus</name>
-      <size>9</size>
+      <name>Sans</name>
+      <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -432,7 +432,7 @@
     </keybind>
     <keybind key="XF86Calculator">
       <action name="Execute">
-        <command>galculator</command>
+        <command>gnome-calculator</command>
       </action>
     </keybind>
     <keybind key="XF86MyComputer">

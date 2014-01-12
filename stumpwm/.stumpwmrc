@@ -1,0 +1,91 @@
+;; Load swank.
+;; *prefix-key* ; swank will kick this off
+(load "/usr/share/common-lisp/source/slime/swank-loader.lisp")
+(swank-loader:init)
+(defcommand swank () ()
+  (swank:create-server :port 4005
+                       :style swank:*communication-style*
+                       :dont-close t)
+  (echo-string (current-screen)
+               "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
+(swank)
+
+
+
+(defvar *autostart-filename* "~/.stumpwm_autostart")
+
+(defun reload-autostart-file ()
+  (when (probe-file *autostart-filename*)
+    (run-program "/bin/sh" (list "-c" *autostart-filename*))))
+
+(reload-autostart-file)
+
+
+
+(defun xbacklight (&key set inc dec time steps)
+  (run-program "xbacklight" (concatenate 'list
+                                         (when set   (list "-set"   (write-to-string set)))
+                                         (when inc   (list "-inc"   (write-to-string inc)))
+                                         (when dec   (list "-dec"   (write-to-string dec)))
+                                         (when time  (list "-time"  (write-to-string time)))
+                                         (when steps (list "-steps" (write-to-string steps))))
+               :search t))
+
+(stumpwm:defcommand backlight-up (percent &optional time steps) (:number :number :number)
+  (xbacklight :inc percent :time time :steps steps))
+
+(stumpwm:defcommand backlight-down (percent &optional time steps) (:number :number :number)
+  (xbacklight :dec percent :time time :steps steps))
+
+(stumpwm:defcommand backlight-set (percent &optional time steps) (:number :number :number)
+  (xbacklight :set percent :time time :steps steps))
+
+
+
+(set-prefix-key (kbd "s-q"))
+(setf stumpwm:*mouse-focus-policy* :click)
+
+(setf stumpwm:*message-window-gravity* :center)
+(setf stumpwm:*input-window-gravity*   :center)
+(stumpwm:set-font "-*-terminus-*-*-*-*-*-240-*-*-*-*-*-*")
+
+(defun define-keys (map bindings)
+  (mapcar (lambda (binding)
+            (let ((key     (car binding))
+                  (command (cdr binding)))
+              (stumpwm:define-key map (stumpwm:kbd key) command)))
+          bindings))
+
+(define-keys stumpwm:*top-map*
+    '(("s-x" . "colon")
+
+      ("C-s-Up"    . "move-focus up")
+      ("C-s-Down"  . "move-focus down")
+      ("C-s-Left"  . "move-focus left")
+      ("C-s-Right" . "move-focus right")
+
+      ("s-Up"    . "exchange-direction up")
+      ("s-Down"  . "exchange-direction down")
+      ("s-Left"  . "exchange-direction left")
+      ("s-Right" . "exchange-direction right")
+
+      ("XF86Calculator" . "exec gnome-calculator")
+      ;; TODO - Fix keyboard map to use XF86* for media keys
+;     ("s-l"            . "exec dm-tool lock")
+      ("s-l"            . "exec xtrlock")
+      ("XF86HomePage"   . "exec x-www-browser")
+      ("s-e"            . "exec nautilus")
+
+      ("XF86AudioRaiseVolume"    . "exec amixer -q sset Master 3%+ unmute")
+      ("XF86AudioLowerVolume"    . "exec amixer -q sset Master 3%- unmute")
+;     ("XF86AudioMute"           . "exec amixer -q sset Master toggle")
+      ("XF86MonBrightnessUp"     . "backlight-up   10")
+      ("XF86MonBrightnessDown"   . "backlight-down 10")
+      ("C-XF86MonBrightnessUp"   . "backlight-set  100")
+      ("C-XF86MonBrightnessDown" . "backlight-set  0")
+
+      ("s-Tab" . "fother")))
+
+(define-keys stumpwm:*root-map*
+    '(("c"   . "exec x-terminal-emulator")
+      ("C-c" . "exec x-terminal-emulator")))

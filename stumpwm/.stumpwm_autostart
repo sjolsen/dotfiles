@@ -1,0 +1,4 @@
+#!/bin/sh
+
+synclient HorizTwoFingerScroll=1 TapButton1=1
+setxkbmap -option compose:ralt

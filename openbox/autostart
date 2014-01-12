@@ -5,7 +5,7 @@ xmodmap -e 'keycode 0x25 = Hyper_L'
 xmodmap -e 'remove control = Hyper_L'
 xmodmap -e 'add mod3 = Hyper_L'
 
-synclient HorizEdgeScroll=1
+synclient HorizTwoFingerScroll=1 TapButton1=1
 
 compton -b &
 nautilus -n &

@@ -42,6 +42,33 @@
 
 
 
+(defun BAT0-energy-now ()
+  (with-open-file (energy_now "/sys/class/power_supply/BAT0/energy_now" :direction :input)
+    (read energy_now)))
+
+(defun BAT0-energy-full ()
+  (with-open-file (energy_full "/sys/class/power_supply/BAT0/energy_full" :direction :input)
+    (read energy_full)))
+
+(defun BAT0-power-now ()
+  (with-open-file (energy_full "/sys/class/power_supply/BAT0/power_now" :direction :input)
+    (read energy_full)))
+
+(defun BAT0-percent ()
+  (values (round (* 100
+                    (/ (float (BAT0-energy-now))
+                       (float (BAT0-energy-full)))))))
+
+(defun BAT0-hours-left ()
+  (float (/ (BAT0-energy-now) (BAT0-power-now))))
+
+(stumpwm:defcommand battery-percent () ()
+  (echo-string (current-screen)
+               (concatenate 'string (write-to-string (BAT0-percent))
+                            "%")))
+
+
+
 (defun scrot (&key file border display-countdown delay exec quality multi-display select currently-focused thumbnail-size silent)
   (sb-ext:run-program "scrot" (concatenate 'list
                                            (when border            (list "-b"))
@@ -81,6 +108,21 @@
 (setf stumpwm:*message-window-gravity* :center)
 (setf stumpwm:*input-window-gravity*   :center)
 (stumpwm:set-font "-*-terminus-*-*-*-*-*-240-*-*-*-*-*-*")
+
+(setf stumpwm:*mode-line-timeout* 10)
+(setf stumpwm:*screen-mode-line-format*
+      '("[^B%n^b] %W"
+        ;; Battery
+        " (BAT0 " (:eval (format nil "~D%" (bat0-percent)))
+        " " (:eval (format nil "~,1F W" (/ (bat0-power-now) 1000000)))
+        " " (:eval (let ((time (/ (BAT0-energy-now) (BAT0-power-now))))
+                     (multiple-value-bind (hour minute-part) (truncate time)
+                       (let ((minute (values (truncate (* minute-part 60)))))
+                         (format nil "~D:~2,'0D" hour minute)))))
+        ")"
+        ;; Time
+        " (%d)"))
+(stumpwm:run-commands "mode-line")
 
 (defun define-keys (map bindings)
   (mapcar (lambda (binding)

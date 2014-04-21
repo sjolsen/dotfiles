@@ -5,6 +5,8 @@ KEYTIMEOUT=0
 
 bindkey -e
 
+# C-z
+bindkey '^z' undo
 # M-x
 bindkey 'ø' execute-named-cmd
 # M-f

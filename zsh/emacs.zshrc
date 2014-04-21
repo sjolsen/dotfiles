@@ -1,5 +1,7 @@
 if [[ $TERM == "eterm-color" ]]; then
-    echo -n '' 1>&2
+    if [ -n "${ETERM_SUPPORTS_SUPPRESSION+x}" ]; then
+        echo -n '' 1>&2
+    fi
 
     function eterm-set-cwd {
 	$@

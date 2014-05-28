@@ -82,7 +82,7 @@
 
     <font place="ActiveWindow">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -92,7 +92,7 @@
 
     <font place="InactiveWindow">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -102,7 +102,7 @@
 
     <font place="MenuHeader">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -112,7 +112,7 @@
 
     <font place="MenuItem">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -122,7 +122,7 @@
 
     <font place="ActiveOnScreenDisplay">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -132,7 +132,7 @@
 
     <font place="InactiveOnScreenDisplay">
       <name>Sans</name>
-      <size>8</size>
+      <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
@@ -480,7 +480,9 @@
 -->
     <keybind key="W-l">        <action name="Execute"><command> dm-tool lock         </command></action></keybind>
 
-    <keybind key="W-f">   <action name="Execute"><command> x-www-browser              </command></action></keybind>
+    <keybind key="XF86HomePage">   <action name="Execute"><command> x-www-browser              </command></action></keybind>
+    <keybind key="XF86MonBrightnessUp">   <action name="Execute"><command> xbacklight -inc 5              </command></action></keybind>
+    <keybind key="XF86MonBrightnessDown">   <action name="Execute"><command> xbacklight -dec 5              </command></action></keybind>
     <keybind key="W-m">   <action name="Execute"><command> thunderbird                </command></action></keybind>
     <keybind key="W-a">   <action name="Execute"><command> audacious                  </command></action></keybind>
     <keybind key="W-d">   <action name="Execute"><command> nautilus                   </command></action></keybind>

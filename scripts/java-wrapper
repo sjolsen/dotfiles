@@ -1,0 +1,400 @@
+#!/usr/bin/perl -w
+
+# Define version
+my $version = "2.0";
+
+# Be strict to avoid messy code
+use strict;
+
+# Use FindBin module to get script directory
+use FindBin;
+
+# Activate all overrides (if any)
+my $args = set_overrides();
+
+# Get script directory
+my $cwd = $FindBin::RealBin;
+
+# Get script name
+my $scriptname = $FindBin::Script;
+
+# Get the home path variable
+my $HOME = $ENV{"HOME"};
+
+# If parameters contains -install
+if ("@ARGV" =~ /(-|--)install/)
+{
+	install();
+}
+# If parameters contains -reinstall
+elsif ("@ARGV" =~ /(-|--)reinstall/)
+{
+	reinstall();
+}
+# If parameters contains -uninstall
+elsif ("@ARGV" =~ /(-|--)uninstall/)
+{
+	uninstall();
+}
+# If parameters contains -help
+elsif ("@ARGV" =~ /(-|--)help/)
+{
+	help();
+}
+# If parameters contains -update
+elsif ("@ARGV" =~ /(-|--)update/)
+{
+	update();
+}
+# Else run main function which redirects java calls properly
+else
+{
+	main();
+}
+
+sub	main
+{
+	# Get the java binary to use
+	my $java_binary = "$cwd/java-bin";
+	
+	# Get the library path needed
+	my $ldpath = unix_findlibrarypath("$java_binary");
+	
+	# Check if the client jvm is available
+	my $clientmodecheck = `"$java_binary" -help 2>&1`;
+	
+	# Make a variable to contain the client parameter(if supported)
+	my $prms = "";
+	
+	# If -client parameter is supported
+	if ($clientmodecheck =~ /-client/)
+	{
+		# Add the parameter to the command
+		$prms = "-client";
+	}
+	
+	# If the parameters include -version
+	if ("@ARGV" =~ /-version/)
+	{
+		# Print the java version
+		system "$ldpath $java_binary $prms @ARGV";
+		
+		# Print java-wrapper information
+		print "\nExecuted with the Environment Variable\n$ldpath\nThrough java-wrapper version: $version\nParameters were: $args\n";
+		
+		# Exit
+		exit
+	}
+
+	# Execute java and wrap the libraries inside LD_LIBRARY_PATH
+	system "$ldpath $java_binary $prms $args && exit";
+
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub unix_findlibrarypath
+{
+	# Gets passed data from the function call
+	my ($binary) = "@_";
+	
+	# List up the shared library files used by the java binary (not the symlink!) and remove unneeded info
+	my $lddresult = `ldd $binary | grep libjli.so`;
+	
+	# Finds the library path from the ldd output line, removing whitespaces before 
+	# and after the path.
+	$lddresult =~ s/\s*libjli\.so\s*=>\s+(.*)jli\/libjli\.so\s+\(\S+\)\s*$/$1/;
+	
+	# Return the library path for java
+	return "LD_LIBRARY_PATH=$lddresult";
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub install
+{
+	# Locate all Java binaries installed
+	my ($location, $binary) = locate_java_installs();
+	
+	# Check if the script is already installed
+	my $alreadyinstalledcheck = `ls $location`;
+	
+	# If the ls shows java-bin then
+	if ($alreadyinstalledcheck =~ /java-bin/)
+	{
+		die "The wrapper is possibly already installed in this java directory!\nPlease run java-wrapper --uninstall first or java-wrapper --reinstall\n\n";
+	}
+	
+	# Configure the wrapper
+	configure_wrapper($location, $binary);
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub locate_java_installs
+{
+	# Tell what we are doing
+	print "Trying to find all java binaries on the computer\nThis MAY take some time\n";
+	
+	# Find the java binaries on the computer
+	my $java_binaries = `find / -name "libjli.so" 2>&1 | grep -v Permission`;
+	
+	# Replace the libjli.so location with the binary location
+	$java_binaries =~ s/\/lib\/(i386|amd64)\/jli\/libjli.so/\/bin\/java/g;
+	
+	# Split the list by newlines
+	my @binaries = split (/\n/, $java_binaries);
+	
+	# Print the top of the message
+	print "Please enter the number for the java binary you want this script to use.\n\n";
+	
+	# Make a counter variable
+	my $counter = 0;
+
+	# For each binary in the array
+	foreach (@binaries)
+	{
+		# Print an option on the screen
+		print " [$counter]  $binaries[$counter]\n";
+		
+		# Increase counter by 1
+		$counter += 1;
+	}
+	
+	# Print a message and ask for the input
+	print "\nType in the number for the java binary this script shall use,\nEnter the number and press Enter/Return:";
+	
+	# Wait for input
+	my $choosen_binary = <STDIN>;
+	
+	# Pass the binary to another variable to fetch out the path
+	my $location = $binaries[$choosen_binary];
+	
+	# Remove "java" from the end
+	$location =~ s/\/java$//;
+	
+	# Return the Java location and the choosen binary to wrap the script around
+	return ($location, $binaries[$choosen_binary]);
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub configure_wrapper
+{
+	my ($location, $binary) = @_;
+	
+	# Rename the real binary to java-bin
+	print "Renaming the real binary to java-bin\n";
+	system "mv -v \"$binary\" \"$location/java-bin\"";
+	
+	# Copy the script itself to the old binary location
+	print "\nCopying the wrapper to $location/java\n";
+	system "cp -v \"$cwd/$scriptname\" \"$binary\"";
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub reinstall
+{
+	# Locate all Java binaries installed
+	my ($location, $binary) = locate_java_installs();
+	
+	# Check if the script is already installed
+	my $alreadyinstalledcheck = `ldd $location/java`;
+	
+	# If the ls shows java-bin then
+	if ($alreadyinstalledcheck =~ /libjli.so/)
+	{
+		# Configure/install the script
+		configure_wrapper($location, $binary)
+	}
+	else
+	{
+		# Copy the script itself to the old binary location
+		print "\nCopying the wrapper to $location/java\n";
+		system "cp -v \"$cwd/$scriptname\" \"$binary\"";
+	}
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub uninstall
+{
+	print "Preparing uninstall\n";
+	
+	# Locate all Java binaries installed
+	my ($location, $binary) = locate_java_installs();
+	
+	# Check if the script is already installed
+	my $alreadyinstalledcheck = `ldd $location/java`;
+	
+	# If the ls shows java-bin then
+	if ($alreadyinstalledcheck !~ /libjli.so/)
+	{
+		# Rename the real binary to java-bin
+		print "Uninstalling the java-wrapper from $location.\n";
+		system "mv -v \"$location/java-bin\" \"$binary\"";
+	}
+	else
+	{
+		print "Nothing to uninstall!\n";
+	}
+	
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub activate_overrides
+{
+	my ($args, $overrides) = @_;
+	
+	# For each value in the array
+	foreach my $hashkey (keys $overrides)
+	{
+		# If the hashkey starts with _set_
+		if ($hashkey =~ /^_set_/i)
+		{
+			# Go to next loop
+			next;
+		}
+		else
+		{
+			# Transfer the current hashkey to $setkey
+			my $setkey = $hashkey;
+			
+			# Replace _if_ with _set_
+			$setkey =~ s/_if_/_set_/i;
+			
+			# Override the parameter if found
+			$args =~ s/$overrides->{$hashkey}/$overrides->{$setkey}/ig;
+		}
+	}
+	
+	return $args;
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub set_overrides
+{
+	# This is the default overrides that will be used if overrides.pm
+	# does not exist in ~/.config/java-wrapper
+	my $overrides = {
+		_if_maxmem => "-Xmx256m",
+		_set_maxmem => "-Xmx512m",
+		_if_stacksize => "-Xss1m",
+		_set_stacksize => "-Xss2m",
+	};
+	## END OF OVERRIDES
+
+	# Make folder for overrides config
+	system "mkdir -p ".$ENV{"HOME"}."/.config/java-wrapper";
+
+	# Get the contents of the folder
+	my $module_exists = `ls $ENV{"HOME"}/.config/java-wrapper`;
+
+	if ($module_exists =~ /overrides.pm/)
+	{
+		require $ENV{"HOME"}."/.config/java-wrapper/overrides.pm";
+		$overrides = overrides::get_overrides();
+	}
+	elsif ($module_exists !~ /overrides.pm/)
+	{
+		print $module_exists;
+		WriteFile('package overrides;
+
+# This is a collection of programmable overrides for the java parameters
+# _if_overridename is set to(=>) "value",
+# _set_overridename set it to(=>) "value",
+
+# NOTE: you can add any if statements if you follow the method above!
+$overrides = {
+	_if_maxmem => "-Xmx256m",
+	_set_maxmem => "-Xmx512m",
+	_if_stacksize => "-Xss1m",
+	_set_stacksize => "-Xss2m",
+};
+## END OF OVERRIDES
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+# Callback, DO NOT TOUCH!
+sub get_overrides
+{
+	return $overrides;
+}
+', ">", $ENV{"HOME"}."/.config/java-wrapper/overrides.pm");
+	}
+	
+	# Create a variable holder for the parameters
+	my $args = "@ARGV";
+
+	# Activate overrides
+	$args = activate_overrides($args, $overrides);
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+# Write a file from scratch(deletes previous content)
+sub WriteFile
+{
+	# Get the passed variables
+	my ($content, $writemode, $outfile) = @_;
+	
+	# Open the outfile for Writing/Rewrite
+	open (my $FILE, "$writemode$outfile");
+
+	# Write the content passed to the function to the file
+	print $FILE "$content\n";
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub update
+{
+	# Tell user that we are updating
+	print "Updating script from $cwd/$scriptname http://dl.dropbox.com/u/11631899/opensource/Perl/java-wrapper/java-wrapper\n";
+	
+	# Overwrite the script with the newest version
+	system "wget -O $cwd/$scriptname http://dl.dropbox.com/u/11631899/opensource/Perl/java-wrapper/java-wrapper";
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+
+sub help
+{
+	# Run java -help
+	system "$cwd/java-bin -help";
+	
+	# Print the java-wrapper help
+	print "\njava-wrapper help:\n\t-install\n\t\tFinds all java locations and installs the wrapper in the\n\t\tJava location of your choice.\n\t-reinstall\n\t\tFinds all Java locations and reinstalls the wrapper in the\n\t\tJava location of your choice.\n\t-uninstall\n\t\tFinds all Java locations and uninstalls the wrapper from the\n\t\tJava location of your choice.\n\t-update\n\t\tDownload and overwrite the script with the newest\n\t\tversion of the wrapper.\n\t-help\n\t\tShows this help text\n";
+}
+
+#
+#---------------------------------------- *** ----------------------------------------
+#
+

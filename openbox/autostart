@@ -4,6 +4,7 @@ xmodmap -e 'remove control = Hyper_L'
 xmodmap -e 'add mod3 = Hyper_L'
 
 compton -b &
+nitrogen --restore &
 # tint2 &
 # nm-applet &
 # volumeicon &

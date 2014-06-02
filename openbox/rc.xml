@@ -437,7 +437,7 @@
     </keybind>
     <keybind key="XF86MyComputer">
       <action name="Execute">
-        <command>nautilus</command>
+        <command>pcmanfm</command>
       </action>
     </keybind>
 
@@ -475,17 +475,14 @@
     <keybind key="W-Right"> <action name="GrowToEdgeEast"/>  </keybind>
 
     <keybind key="C-A-Delete"> <action name="Execute"><command> gnome-system-monitor </command></action></keybind>
-<!--
     <keybind key="W-l">        <action name="Execute"><command> xtrlock              </command></action></keybind>
--->
-    <keybind key="W-l">        <action name="Execute"><command> dm-tool lock         </command></action></keybind>
 
     <keybind key="XF86HomePage">   <action name="Execute"><command> x-www-browser              </command></action></keybind>
     <keybind key="XF86MonBrightnessUp">   <action name="Execute"><command> xbacklight -inc 5              </command></action></keybind>
     <keybind key="XF86MonBrightnessDown">   <action name="Execute"><command> xbacklight -dec 5              </command></action></keybind>
     <keybind key="W-m">   <action name="Execute"><command> thunderbird                </command></action></keybind>
     <keybind key="W-a">   <action name="Execute"><command> audacious                  </command></action></keybind>
-    <keybind key="W-d">   <action name="Execute"><command> nautilus                   </command></action></keybind>
+    <keybind key="W-d">   <action name="Execute"><command> pcmanfm                    </command></action></keybind>
     <keybind key="W-e">   <action name="Execute"><command> emacs-or-client.sh         </command></action></keybind>
     <keybind key="W-t">   <action name="Execute"><command> x-terminal-emulator        </command></action></keybind>
     <keybind key="W-S-e"> <action name="Execute"><command> emacs                      </command></action></keybind>

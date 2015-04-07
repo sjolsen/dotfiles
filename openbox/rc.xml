@@ -477,6 +477,22 @@
     <keybind key="C-A-Delete"> <action name="Execute"><command> gnome-system-monitor </command></action></keybind>
     <keybind key="W-l">        <action name="Execute"><command> xtrlock              </command></action></keybind>
 
+    <keybind key="XF86AudioNext">
+      <action name="Execute">
+        <command>audacious -f</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioPlay">
+      <action name="Execute">
+        <command>audacious -t</command>
+      </action>
+    </keybind>
+    <keybind key="XF86AudioPrev">
+      <action name="Execute">
+        <command>audacious -r</command>
+      </action>
+    </keybind>
+
     <keybind key="XF86HomePage">   <action name="Execute"><command> x-www-browser              </command></action></keybind>
     <keybind key="XF86MonBrightnessUp">   <action name="Execute"><command> xbacklight -inc 5              </command></action></keybind>
     <keybind key="XF86MonBrightnessDown">   <action name="Execute"><command> xbacklight -dec 5              </command></action></keybind>

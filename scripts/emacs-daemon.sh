@@ -1,4 +1,4 @@
 #!/bin/sh
 
 emacs --daemon
-emacsclient -c "$@"
+exec emacsclient -c "$@"

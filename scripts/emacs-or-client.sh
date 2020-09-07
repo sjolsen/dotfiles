@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z "$*" ]; then
-    emacsclient -c -a emacs-daemon.sh
+    exec emacsclient -c -a emacs-daemon.sh
 else
-    emacsclient "$@" -a emacs-daemon.sh
+    exec emacsclient "$@" -a emacs-daemon.sh
 fi
